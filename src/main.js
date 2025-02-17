@@ -1,4 +1,4 @@
-import getRateMyProfData from "./RateMyProf";
+import { getRateMyProfData } from "./RateMyProf";
 
 let profData = await getRateMyProfData("scott", "swanson")
 

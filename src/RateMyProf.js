@@ -7,7 +7,7 @@ const ratings = require('@mtucourses/rate-my-professors').default;
  * @param lastName Last name of searched prof
  * @returns object of RMP stats (average diffculty, average rating, and would take again %)
  */
-export default async function getRateMyProfData(firstName, lastName) {
+async function getRateMyProfData(firstName, lastName) {
 
   //filter based on last name
   //second param is UW-Madison school ID code in Rate My Professor - DO NOT CHANGE
@@ -24,11 +24,17 @@ export default async function getRateMyProfData(firstName, lastName) {
     }
   }
 
+  if(profID != null){
   //search for prof based on unique prof id
   const profData = await ratings.getTeacher(profID);
 
   console.log(profData);
 
   return profData;
+  } else {
+    return null;
+  }
   
 };
+module.exports = { getRateMyProfData };
+
