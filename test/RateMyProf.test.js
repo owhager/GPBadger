@@ -1,3 +1,5 @@
+//using jest for junit testing and mocking
+
 const RMP = require('../src/RateMyProf'); // Change from import to require
 const ratings = require('@mtucourses/rate-my-professors').default;
 
