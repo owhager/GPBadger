@@ -5,7 +5,7 @@ const ratings = require('@mtucourses/rate-my-professors').default;
  * Retreives Rate My Professor (RMP) ratings for individual professors at UW-Madison
  * @param firstName First name of searched prof
  * @param lastName Last name of searched prof
- * @returns object of RMP stats
+ * @returns object of RMP stats (average diffculty, average rating, and would take again %)
  */
 export default async function getRateMyProfData(firstName, lastName) {
 
