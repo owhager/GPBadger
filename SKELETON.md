@@ -1,12 +1,11 @@
-Here is where you will explain your plan for the Walking Skeleton.
-We will talk more about this in the future. In summary, the Walking Skeleton is a
-plan for setting up a minimal version of your tech stack. This is less than a MVP
-(minimum viable product) as this is not meant to be a product. It is to prove that
-you are able to integrate the three main components of your application: front end,
-back end, and database.
-To complete the Skeleton you must be able to interact with your front end, have
-that interaction be sent to your backend, have something be stored in your
-database, and return a result back to the front end. This feature does not have to
-be particularly powerful or meaningful, but you must prove that you can communicate
-between each component of your application.
+Front End Interaction: JavaScript: A search bar where users input a course name.A button to submit the query.
+Back End Processing: Java: Receive the user input and format it for database querying. Send a request to fetch relevant grade distribution data.
+Database Integration: MySQL: Store sample grade data from CSV/API sources. Query stored data based on the user request.
+Returning a Response: The backend retrieves relevant results and sends them back to the front end. The front end displays the results in a basic table or graph format.
 
+Implementation of the Walking Skeleton means:
+A user can enter a course name.
+The request is sent to the backend.
+The backend queries the database and retrieves grade distribution data.
+The retrieved data is displayed on the front end.
+This skeleton serves as the foundation for future feature development and expansion.
