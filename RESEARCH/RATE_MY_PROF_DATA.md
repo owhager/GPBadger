@@ -16,7 +16,7 @@ Our team is considering adding Rate My Professor data to our webpage in addition
 
 ### Results
 
-The first thing I did was I searched for "rate my professor APIs" and "rate my professor data scrapers" on Google.  I came across a couple of Python data scrappers, but ignored them since our team chose to program our product in Java and Javascript.  I then cam accross an npm package for an API wrapper that would wrap around Rate My Professor's graphQL calls.[^1]  I downloaded this package to a new branch in the repo and started following the starter code given in the README of the npm package's git repo.[^2]
+The first thing I did was I searched for "rate my professor APIs" and "rate my professor data scrapers" on Google.  I came across a couple of Python data scrappers, but ignored them since our team chose to program our product in Java and Javascript.  I then came accross an npm package for an API wrapper that would wrap around Rate My Professor's graphQL calls.[^1]  I downloaded this package to a new branch in the repo and started following the starter code given in the README of the npm package's git repo.[^2]
 
 After adding the starter code, I needed to install Yarn so I could run the suggested Yarn commands to install the dependencies needed in the module so I followed a yarn install tutorial.[^3]
 
@@ -31,6 +31,8 @@ I opened up the dev tools on my laptop and then navigated to the Rate My Profrss
 ![alt text](RATE-MY-PROF.png)
 
 After capturing this ID, I was able to successfully return data on UW-Madison professor when searching for their name with the school ID.  This concluded my investigation on how to retrieve data from Rate My Professor.
+
+This investigation was used to create the getRateMyProfData() function in the ../src/RateMyProf.js file which can be found in this repo for further details and use cases!
 
 ### Sources
 - @mtucourses/rate-my-professors npm package[^1]
