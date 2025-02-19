@@ -75,3 +75,6 @@ coverage/
 /out-tsc
 
 *.zip
+node_modules
+dist
+

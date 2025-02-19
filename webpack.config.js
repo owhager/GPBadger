@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');  // Import the plugin
 
 module.exports = {
-  entry: './src/main.js',  // Path to your main JavaScript file
+  entry: './src/app.js',  // Path to your main JavaScript file
   output: {
     filename: 'bundle.js',  // Output file for the bundled code
     path: path.resolve(__dirname, 'dist'),  // Output directory
