@@ -6,43 +6,57 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 const ratings = require('@mtucourses/rate-my-professors').default;
 
+/**
+ * Retreives Rate My Professor (RMP) ratings for individual professors at UW-Madison
+ * @param firstName First name of searched prof
+ * @param lastName Last name of searched prof
+ * @returns object of RMP stats (average diffculty, average rating, and would take again %)
+ */
+
+export async function getRateMyProfData(firstName, lastName) {
+  try {
+
+    //filter based on last name
+    //second param is UW-Madison school ID code in Rate My Professor - DO NOT CHANGE
+    const results = await ratings.searchTeacher(lastName.toLowerCase(), 'U2Nob29sLTE4NDE4');
+
+    //filter last name results based on first name to get profID
+    const prof = results.find((p) => p.firstName.toLowerCase() === firstName.toLowerCase());
+    
+    if (prof) {
+      //search for prof based on unique prof id
+      const profInfo = await ratings.getTeacher(prof.id);
+      return profInfo; // Return the data directly instead of using state
+    }
+
+    return null; // Return null if professor is not found
+  } catch (error) {
+    console.error("Error fetching professor data:", error);
+    return null;
+  }
+}
+
 const RateMyProf = (props) => {
-  const [filteredProfs, setFilteredProfs] = useState([]);
   const [profData, setProfData] = useState(null);
 
   useEffect(() => {
-    async function getStudentData() {
-      try {
-        const results = await ratings.searchTeacher(props.lastName.toLowerCase(), 'U2Nob29sLTE4NDE4');
-        setFilteredProfs(results);
+    const fetchData = async () => {
+      const data = await getRateMyProfData(props.firstName, props.lastName);
+      setProfData(data);
+    };
 
-        const prof = results.find((p) => p.firstName.toLowerCase() === props.firstName.toLowerCase());
-
-        if (prof) {
-          const profInfo = await ratings.getTeacher(prof.id);
-          setProfData(profInfo);
-        }
-      } catch (error) {
-        console.error("Error fetching professor data:", error);
-      }
-    }
-
-    getStudentData();
-  }, [props.firstName, props.lastName]); // Depend on props to re-fetch data
+    fetchData(); 
+  }, [props.firstName, props.lastName]); // re-fetch data if params change
 
   return (
     <div>
       {profData ? (
-
-
         <Card style={{ width: '40rem' }}>
           <Card.Body>
             <ListGroup variant="flush">
               <ListGroup.Item>
-
-                <h2 >{props.firstName} {props.lastName}</h2>
+                <h2>{props.firstName} {props.lastName}</h2>
               </ListGroup.Item>
-
               <ListGroup.Item>
                 Average Rating: {profData.avgRating}
               </ListGroup.Item>
@@ -52,13 +66,9 @@ const RateMyProf = (props) => {
               <ListGroup.Item>
                 Would Take Again: {Math.round(profData.wouldTakeAgainPercent)}%
               </ListGroup.Item>
-
             </ListGroup>
-
           </Card.Body>
         </Card>
-
-
       ) : (
         <p>Loading professor data...</p>
       )}
@@ -66,4 +76,4 @@ const RateMyProf = (props) => {
   );
 };
 
-export default RateMyProf
+export default RateMyProf;
