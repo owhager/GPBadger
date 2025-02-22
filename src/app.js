@@ -1,4 +1,4 @@
-let courseList; //Stores all the courses returned by the fetch request
+/*let courseList; //Stores all the courses returned by the fetch request
 
 /*
 Function that display all courses passed into it by the cours parameter
