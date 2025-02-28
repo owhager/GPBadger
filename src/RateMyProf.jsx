@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const ratings = require('@mtucourses/rate-my-professors').default;
+
 
 /**
  * Retreives Rate My Professor (RMP) ratings for individual professors at UW-Madison
