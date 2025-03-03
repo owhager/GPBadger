@@ -1,5 +1,5 @@
 /**
- * @file RateMyProf.js
+ * @file RateMyProf.jsx
  * @description React card that fetches and displays Rate My Professor (RMP) ratings
  *              for profs at at UW-Madison.
  * 
