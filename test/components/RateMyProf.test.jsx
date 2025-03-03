@@ -1,7 +1,7 @@
 //using jest for junit testing and mocking
 
 const ratings = require('@mtucourses/rate-my-professors').default;
-import { getRateMyProfData } from '../src/RateMyProf';
+import { getRateMyProfData } from '../../src/RateMyProf';
 
 //mocking mtu RMP graphql wrapper so that we don't actually make calls
 jest.mock('@mtucourses/rate-my-professors', () => ({
