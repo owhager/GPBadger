@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination, Container, Form, Button } from 'react-bootstrap';
+import Nav from './Nav';
 
 export default function GradeSearch(props) {
     const [courseList, setCourseList] = useState([]);
@@ -49,24 +50,7 @@ export default function GradeSearch(props) {
 
     return (
         <Container>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Grade Search</a>
-                    <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <a
-                                    className="nav-link"
-                                    href="userpage.html"
-                                    style={{ fontWeight: 500 }}
-                                >
-                                    Login
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <Nav />
             <h1>GradeSearch</h1>
             <Form onSubmit={handleSearch} className="mb-3">
                 <Form.Control
