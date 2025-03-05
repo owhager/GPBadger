@@ -1,10 +1,23 @@
+/**
+ * @file RateMyProf.jsx
+ * @description React card that fetches and displays Rate My Professor (RMP) ratings
+ *              for profs at at UW-Madison.
+ * 
+ * @dependencies
+ * - React: used as agreed upon app wide language
+ * - react-bootstrap: used for UI features / design
+ * - @mtucourses/rate-my-professors: npm library that fetches professor ratings
+ * 
+ * @author Angie Gorton
+ */
+
+
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const ratings = require('@mtucourses/rate-my-professors').default;
+
 
 /**
  * Retreives Rate My Professor (RMP) ratings for individual professors at UW-Madison

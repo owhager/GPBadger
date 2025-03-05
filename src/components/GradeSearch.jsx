@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
+import Nav from './Nav';
 
 export default function GradeSearch() {
   const [courseList, setCourseList] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     fetch("https://api.madgrades.com/v1/courses", {
@@ -25,14 +28,30 @@ export default function GradeSearch() {
       });
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const term = searchTerm.trim().toLowerCase();
-    const filtered = courseList.filter(course =>
-      course.name.toLowerCase().includes(term)
-    );
-    setFilteredCourses(filtered);
-  };
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const term = searchTerm.trim().toLowerCase();
+        const filtered = courseList.filter(course =>
+            course.name.toLowerCase().includes(term)
+        );
+        setFilteredCourses(filtered);
+        setCurrentPage(1);
+    };
+
+    const displayCourses = () => {
+        const startValue = (currentPage - 1) * itemsPerPage;
+        const endValue = currentPage * itemsPerPage;
+        const pagination = filteredCourses.slice(startValue, endValue);
+
+        return pagination.map((course, index) => (
+            <div key={index} className="col-12 col-md-6 col-lg-4 col-xl-3">
+                <h2>{course.name}</h2>
+            </div>
+        ));
+    };
+
+
+    const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
 
   return (
     <Container className="py-5">
