@@ -17,7 +17,7 @@ test:
   image: node:22
   script:
     - echo "Testing application..."
-    - npm test
+    - npx jest --coverage
 
 pages:
   stage: deploy
