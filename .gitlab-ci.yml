@@ -8,7 +8,7 @@ build:
   image: node:22
   script:
     - echo "Installing dependencies..."
-    - npm install
+    - npm install || yarn install
     - echo "Building application..."
     - npm run build
 
