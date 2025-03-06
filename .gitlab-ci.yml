@@ -22,6 +22,7 @@ test:
 pages:
   stage: deploy
   script:
+    - echo "Deploying app"
     - mkdir -p public
     - cp -r dist/* public/
   artifacts:
