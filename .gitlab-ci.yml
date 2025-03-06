@@ -16,6 +16,7 @@ test:
   stage: test
   image: node:22
   script:
+    - export NODE_PATH=$(npm root -g)
     - echo "Testing application..."
     - npx jest --coverage
 
