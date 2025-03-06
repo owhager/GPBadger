@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  image: node:22
+  script:
+    - echo "Installing dependencies..."
+    - npm install
+    - echo "Building application..."
+    - npm run build
+
+test:
+  stage: test
+  image: node:22
+  script:
+    - echo "Testing application..."
+    - npm test
+
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - cp -r dist/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
