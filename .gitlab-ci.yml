@@ -30,3 +30,4 @@ pages:
       - public
   only:
     - main
+    - issue_35_cicd
