@@ -17,6 +17,7 @@ test:
   image: node:22
   script:
     - export NODE_PATH=$(npm root -g)
+    - npm install --save-dev @babel/preset-env
     - echo "Testing application..."
     - npx jest --coverage
 
