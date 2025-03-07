@@ -32,7 +32,7 @@ test:
     - npx jest --coverage
 
 
-deploy:
+release:
   stage: release
   image: docker:20.10.16
   services:
