@@ -47,6 +47,7 @@ deploy:
     - dind
   only:
     - main
+    - issue_35_cicd
 
 
 
