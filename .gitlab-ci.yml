@@ -1,0 +1,52 @@
+image: node:latest
+
+services:
+  - mysql:latest
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+  - release
+
+variables:
+  RELEASE_TAG: release-$CI_PIPELINE_IID
+
+build:
+  stage: build
+  script:
+    - echo "Installing dependencies..."
+    - npm install || yarn install
+    - echo "Building application..."
+    - npm run build
+
+test:
+  stage: test
+  script:
+    - export NODE_PATH=$(npm root -g)
+    - npm install --save-dev @babel/preset-env
+    - echo "Testing application..."
+    - npx jest --coverage
+
+
+release:
+  stage: release
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
+    - docker tag $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG $CI_REGISTRY_IMAGE/frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
+  tags:
+    - dind
+  only:
+    - main
+
+
+
