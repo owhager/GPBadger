@@ -50,15 +50,16 @@ release:
     - main
     - issue_35_cicd
 
-
-pages:
+  pages:
   stage: deploy
+  image: node:latest
   script:
-    - echo "Deploying app"
-    - npm run dev
+    - npm install
+    - npm run build
+    - mv dist public  # GitLab Pages requires the output in "public" folder
   artifacts:
     paths:
       - public
   only:
     - main
-    - issue_35_cicd
+
