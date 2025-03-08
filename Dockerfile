@@ -6,7 +6,11 @@ COPY . /app
 RUN npm run build
 
 EXPOSE 80
+EXPOSE 5657
 
 RUN npm install -g serve
+
+RUN npm start-front
+RUN npm start-server
 
 CMD ["serve", "-s", "build", "-l", "80"]

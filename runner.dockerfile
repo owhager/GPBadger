@@ -11,7 +11,8 @@ RUN npm install
 RUN npm run build
 
 # Expose port 8080 (or whatever your React app runs on)
-EXPOSE 8080
+EXPOSE 9090
+EXPOSE 5657
 
 # Start the app (this assumes you want to run the React app in development mode)
 CMD ["npm", "run", "dev"]

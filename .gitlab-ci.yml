@@ -47,6 +47,7 @@ release:
     - dind
   only:
     - main
+    - issue_46_backend_cicd
 
 
 
