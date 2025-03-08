@@ -7,6 +7,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
+
+import { Link } from 'react-router-dom'; //Added Link for navigation to CourseDetails page
 import Nav from './Nav';
 
 export default function GradeSearch() {
@@ -18,12 +20,12 @@ export default function GradeSearch() {
   const [totalPages, setTotalPages] = useState(0); // Number of current pages of course search results
   const [loading, setLoading] = useState(false);
 
-/**
- * Retreives and displays first page of courses at UW-Madison from MadGrades API
- */
+  /**
+   * Retreives and displays first page of courses at UW-Madison from MadGrades API
+   */
   useEffect(() => {
-     // Default fetch request to MadGrades API returning first page of results
-     fetch(`https://api.madgrades.com/v1/courses`, {
+    // Default fetch request to MadGrades API returning first page of results
+    fetch(`https://api.madgrades.com/v1/courses`, {
       headers: {
         "Authorization": "Token token=052ae8133724409ba61902593bee5db6"
       }
@@ -41,12 +43,12 @@ export default function GradeSearch() {
       });
   }, []);
 
-/**
- * Retreives and displays first page of user course search results from MadGrades API
- */
-    const handleSearch = (e) => {
-        e.preventDefault();
-        currentPage.current = 1;
+  /**
+   * Retreives and displays first page of user course search results from MadGrades API
+   */
+  const handleSearch = (e) => {
+    e.preventDefault();
+    currentPage.current = 1;
 
     // MadGrades API request returning first page of user course search results
     fetch(`https://api.madgrades.com/v1/courses?page=1&query=${searchInput.current.value.trim().toLowerCase()}`, {
@@ -61,28 +63,28 @@ export default function GradeSearch() {
         setTotalPages(data.totalPages);
       })
       .catch((error) => console.error("Error fetching data:", error));
-    };
-  
-/**
- * Retreives and displays the page of user course search results that the user is currently on from MadGrades API
- */
-    const changePage = async () => {
-      // MadGrades API request returning the given page of user course search results
-        const resp = await fetch(`https://api.madgrades.com/v1/courses?page=${currentPage.current}&query=${searchInput.current.value.trim().toLowerCase()}`, {
-          headers: {
-              "Authorization": "Token token=052ae8133724409ba61902593bee5db6"
-          }
-      })
-      const data = await resp.json();
-      setCourseList(data.results);
-      setTotalResults(data.totalCount);
-      setTotalPages(data.totalPages);  
-    }
+  };
+
+  /**
+   * Retreives and displays the page of user course search results that the user is currently on from MadGrades API
+   */
+  const changePage = async () => {
+    // MadGrades API request returning the given page of user course search results
+    const resp = await fetch(`https://api.madgrades.com/v1/courses?page=${currentPage.current}&query=${searchInput.current.value.trim().toLowerCase()}`, {
+      headers: {
+        "Authorization": "Token token=052ae8133724409ba61902593bee5db6"
+      }
+    })
+    const data = await resp.json();
+    setCourseList(data.results);
+    setTotalResults(data.totalCount);
+    setTotalPages(data.totalPages);
+  }
 
   return (
     <Container className="py-5">
       {/* bootstrap container for consistent padding and layout */}
-      
+
       <h1 className="text-center mb-4 fw-bold text-dark">📚 GradeSearch</h1>
       {/* bootstrap utility classes for centering text, adding margin, bold font, and dark text color */}
 
@@ -142,7 +144,13 @@ export default function GradeSearch() {
                   {/* bootstrap card title with dark text */}
                   <Card.Text className="text-muted">Course Code: {course.subjects[0].abbreviation + " " + course.subjects[0].code}</Card.Text>
                   {/* bootstrap muted text for subtle styling */}
-                  <Button variant="outline-dark mt-auto">View Details</Button>
+                  <Button
+                    as={Link}
+                    to={`/course/${course.id}`}
+                    state={{course}}
+                    variant="outline-dark mt-auto">
+                    View Details
+                  </Button>
                   {/* bootstrap outlined button with dark theme, mt-auto to push button to bottom */}
                 </Card.Body>
               </Card>
@@ -150,11 +158,11 @@ export default function GradeSearch() {
           ))}
         </Row>
       )}
-        <Pagination className="mt-3" count={totalPages}>
+      <Pagination className="mt-3" count={totalPages}>
         <Pagination.Prev disabled={currentPage.current === 1} onClick={() => {
-              currentPage.current = currentPage.current - 1;
-              changePage();
-            }}>Prev</Pagination.Prev>
+          currentPage.current = currentPage.current - 1;
+          changePage();
+        }}>Prev</Pagination.Prev>
         {[...Array(totalPages)].map((_, index) => (
           <Pagination.Item
             key={index}
@@ -165,9 +173,9 @@ export default function GradeSearch() {
           </Pagination.Item>
         ))}
         <Pagination.Next disabled={currentPage.current === totalPages} onClick={() => {
-              currentPage.current = currentPage.current + 1;
-              changePage();
-            }}>Next</Pagination.Next>
+          currentPage.current = currentPage.current + 1;
+          changePage();
+        }}>Next</Pagination.Next>
       </Pagination>
     </Container>
   );
