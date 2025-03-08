@@ -10,7 +10,7 @@ EXPOSE 5657
 
 RUN npm install -g serve
 
-RUN npm start-front
-RUN npm start-server
+RUN npm run start-front
+RUN npm run start-server
 
 CMD ["serve", "-s", "build", "-l", "80"]
