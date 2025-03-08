@@ -38,6 +38,8 @@ release:
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
+  before_script:
+    - apk add --no-cache docker-cli
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
@@ -52,6 +54,10 @@ release:
 
 deploy:
   stage: deploy
+  services:
+    - docker:dind
+  before_script:
+    - apk add --no-cache docker-cli
   script:
     - docker run -d -p 90:90 $CI_REGISTRY_IMAGE:frontend:latest
     - docker run -d -p 5657:5657 $CI_REGISTRY_IMAGE:frontend:latest
