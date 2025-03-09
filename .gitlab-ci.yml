@@ -56,8 +56,8 @@ deploy:
   services:
     - docker:dind
   script:
-    - docker run -d -p 90:90 $CI_REGISTRY_IMAGE:frontend:latest
-    - docker run -d -p 5657:5657 $CI_REGISTRY_IMAGE:frontend:latest
+    - docker run -d -p 90:90 $CI_REGISTRY_IMAGE/frontend:latest
+    - docker run -d -p 5657:5657 $CI_REGISTRY_IMAGE/frontend:latest
   only:
     - main
     - issue_46_backend_cicd
