@@ -51,6 +51,7 @@ release:
     - issue_46_backend_cicd
 
 deploy:
+  image: docker:20.10.16
   stage: deploy
   services:
     - docker:dind
