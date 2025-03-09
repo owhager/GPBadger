@@ -5,7 +5,7 @@ RUN npm install
 COPY . /app
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 9090
 EXPOSE 5657
 
 RUN npm install -g serve
