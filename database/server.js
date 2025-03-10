@@ -28,7 +28,7 @@ const app = express();
 
 //connection to t15 db - not secure so im putting all our secure info here
 const db = mysql.createConnection({
-    host: '0.0.0.0',
+    host: 'mysql-container',
     user: 'root',
     password: 'shoelace',
     database: 't15',
