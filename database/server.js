@@ -23,16 +23,20 @@
 
 const express = require("express");
 const mysql = require('mysql2'); 
+const dotenv = require('dotenv');
 
 const app = express(); 
 
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
+dotenv.config({ path: envFile });
+
 //connection to t15 db - not secure so im putting all our secure info here
 const db = mysql.createConnection({
-    host: 'mysql-container',
-    user: 'root',
-    password: 'shoelace',
-    database: 't15',
-    port: 3306
+    host: process.env.DB_HOST,        
+    user: process.env.DB_USER,        
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME, 
+    port: process.env.DB_PORT 
 });
 
 //attempts connection to db

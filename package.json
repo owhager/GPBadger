@@ -14,7 +14,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "dev": "concurrently \"npm run start-server\" \"npm run start-front\"",
+    "dev": "concurrently \"export NODE_ENV=development\" \"npm run start-server\" \"npm run start-front\"",
+    "prod": "concurrently \"npm run start-server\" \"npm run start-front\"",
     "start-front": "webpack-dev-server",
     "start-server": "node ./database/server.js",
     "test": "jest --coverage"

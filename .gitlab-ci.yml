@@ -3,6 +3,9 @@ image: node:latest
 services:
   - mysql:latest
 
+variables:
+  ENV_FILE: ".env.prod"
+
 cache:
   paths:
     - node_modules/
@@ -35,6 +38,8 @@ test:
 release:
   stage: release
   image: docker:20.10.16
+  variables:
+    NODE_ENV: production
   services:
     - docker:20.10.16-dind
   script:
