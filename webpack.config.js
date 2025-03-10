@@ -39,13 +39,10 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, 'dist'),
     compress: true,
-    host: '0.0.0.0',
     port: 9090,
     open: true,
     hot: true,
     historyApiFallback: true, 
-    disableHostCheck: true
-
   },
   plugins: [
     new HtmlWebpackPlugin({
