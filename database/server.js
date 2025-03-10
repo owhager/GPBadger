@@ -30,6 +30,7 @@ const app = express();
 const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
 dotenv.config({ path: envFile });
 
+console.log(process.env.DB_HOST)
 //connection to t15 db - not secure so im putting all our secure info here
 const db = mysql.createConnection({
     host: process.env.DB_HOST,        

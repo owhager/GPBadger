@@ -13,9 +13,10 @@
     "react-dom": "^19.0.0"
   },
   "scripts": {
-    "build": "webpack",
-    "dev": "concurrently \"export NODE_ENV=development\" \"npm run start-server\" \"npm run start-front\"",
-    "prod": "concurrently \"export NODE_ENV=production\" \"npm run start-server\" \"npm run start-front\"",
+    "build": "NODE_ENV=development webpack",
+    "build-prod": "NODE_ENV=production webpack",
+    "dev": "concurrently \"npm run start-server\" \"npm run start-front\"",
+    "prod": "concurrently \"npm run start-server\" \"npm run start-front\"",
     "start-front": "webpack-dev-server",
     "start-server": "node ./database/server.js",
     "test": "jest --coverage"
