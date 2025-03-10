@@ -43,7 +43,7 @@ release:
     - docker tag $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG $CI_REGISTRY_IMAGE/frontend:latest
     - docker push $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG
     - docker push $CI_REGISTRY_IMAGE/frontend:latest
-    - docker run -d --env-file .env.prod -p 5657:5657 -p 9090:9090 $CI_REGISTRY_IMAGE/frontend:latest
+    - docker run -d -p 5657:5657 -p 9090:9090 $CI_REGISTRY_IMAGE/frontend:latest
   tags:
     - dind
   only:
