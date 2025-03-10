@@ -18,10 +18,16 @@ variables:
 build:
   stage: build
   script:
+    - echo "NODE_ENV=production" > .env.production
+    - echo "DB_HOST=mysql-container" >> .env.production
+    - echo "DB_PORT=3306" >> .env.production
+    - echo "DB_USER=root" >> .env.production
+    - echo "DB_PASSWORD=shoelace" >> .env.production
+    - echo "DB_NAME=t15" >> .env.production
     - echo "Installing dependencies..."
     - npm install || yarn install
     - echo "Building application..."
-    - npm run build-prod
+    - npm run build
 
 test:
   stage: test
