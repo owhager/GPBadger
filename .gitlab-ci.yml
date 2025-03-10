@@ -29,6 +29,7 @@ build:
     - echo "Building application..."
     - npm run build
 
+
 test:
   stage: test
   script:
