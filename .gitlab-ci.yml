@@ -48,6 +48,7 @@ release:
     - dind
   only:
     - main
+    - fixing-vm-app-connections
 
 
 
