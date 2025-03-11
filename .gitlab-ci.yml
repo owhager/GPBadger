@@ -23,6 +23,7 @@ build:
     - echo "Installing dependencies..."
     - npm install webpack webpack-cli --save-dev
     - npm install || yarn install
+    - npx webpack-cli --version
     - npx webpack
     - echo "Building application..."
     - npm run build
