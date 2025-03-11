@@ -21,14 +21,9 @@ build:
     - echo "Printing the NODE_ENV variable"
     - echo "NODE_ENV is:" $NODE_ENV
     - echo "Installing dependencies..."
-    - echo "Checking Node version and path"
-    - node -v
-    - which node
-    - echo "Checking npm version"
-    - npm -v
-    - which npm
-    - npx webpack
+    - npm install webpack webpack-cli --save-dev
     - npm install || yarn install
+    - npx webpack
     - echo "Building application..."
     - npm run build
 
