@@ -18,13 +18,8 @@ variables:
 build:
   stage: build
   script:
-    - echo "Printing the NODE_ENV variable"
-    - echo "NODE_ENV is:" $NODE_ENV
     - echo "Installing dependencies..."
-    - npm install webpack webpack-cli --save-dev
     - npm install || yarn install
-    - npx webpack-cli --version
-    - npx webpack
     - echo "Building application..."
     - npm run build
 
@@ -56,7 +51,5 @@ release:
     - dind
   only:
     - main
-    - fixing-vm-app-connections
-
 
 

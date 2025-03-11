@@ -27,12 +27,10 @@ const dotenv = require('dotenv');
 
 const app = express(); 
 
-const DB_HOST = process.env.NODE_ENV === "production" ? "mysql-container" : "localhost";
-console.log(`Database Host: ${DB_HOST}`);
 
 //connection to t15 db - not secure so im putting all our secure info here
 const db = mysql.createConnection({
-    host: DB_HOST,
+    host: "mysql-container", //CHANGE TO "localhost" for local development BUT CHANGE BACK TO "mysql-container" BEFORE PUSHING TO MAIN
     user: 'root',
     password: 'shoelace',
     database: 't15',
