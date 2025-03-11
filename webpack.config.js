@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const dotenv = require('dotenv');
+
 
 module.exports = {
   target: 'web',
@@ -37,8 +39,7 @@ module.exports = {
     compress: true,
     port: 9090,
     open: true,
-    hot: true,
-    historyApiFallback: true, // Ensures React Router works properly
+    hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({

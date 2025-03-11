@@ -20,6 +20,26 @@ Please view this file's source to see `<!--comments-->` with guidance on how you
 
 <!--A brief description of the customer for this software, both in general (the population who might eventually use such a system) and specifically for this document (the customer(s) who informed this document). Every project will have a customer from the CS506 instructional staff. Requirements should not be derived simply from discussion among team members. Ideally your customer should not only talk to you about requirements but also be excited later in the semester to use the system.-->
 
+### How to Access App in CS VM
+Pull latest Image from GitLab CICD Release stage:
+docker image pull registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend
+
+Run the image in the t15 network and expose port 9090
+docker run --network t15_default -p 9090:9090 -d registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend:latest
+
+The previous command should return a container id.  Execute this container with the id
+docker exec -it CONTAINER_ID sh
+exit
+
+Log the return of the container running the app to make sure that the app is running and is able to connect to the database running on the VM
+docker logs CONTAINER ID
+
+Open a new terminal and create a ssh tunnel to port 9090 to check the app on your local machine
+ssh -L 9090:localhost:9090  CSLOGIN@cs506x15.cs.wisc.edu
+
+Try to hit port 9090 on your local machine:
+http://localhost:9090/
+
 ### Specification
 
 <!--A detailed specification of the system. UML, or other diagrams, such as finite automata, or other appropriate specification formalisms, are encouraged over natural language.-->

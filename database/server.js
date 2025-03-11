@@ -26,14 +26,16 @@ const mysql = require('mysql2');
 
 const app = express(); 
 
+
 //connection to t15 db - not secure so im putting all our secure info here
 const db = mysql.createConnection({
-    host: '127.0.0.1',
+    host: "mysql-container", //CHANGE TO "localhost" for local development BUT CHANGE BACK TO "mysql-container" BEFORE PUSHING TO MAIN
     user: 'root',
     password: 'shoelace',
     database: 't15',
     port: 3306
 });
+
 
 //attempts connection to db
 db.connect((error) => {
