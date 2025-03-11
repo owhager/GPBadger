@@ -2,8 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv');
 
-const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
-dotenv.config({ path: envFile });
 
 module.exports = {
   target: 'web',
@@ -41,8 +39,7 @@ module.exports = {
     compress: true,
     port: 9090,
     open: true,
-    hot: true,
-    historyApiFallback: true, 
+    hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({

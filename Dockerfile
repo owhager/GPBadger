@@ -11,4 +11,4 @@ EXPOSE 5657
 RUN npm install -g serve
 
 
-CMD ["npm", "run", "prod"]
+CMD ["npm", "run", "dev"]
