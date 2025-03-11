@@ -38,6 +38,8 @@ release:
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
+  environment:
+    name: production
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
