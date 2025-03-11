@@ -19,7 +19,7 @@ build:
   stage: build
   script:
     - echo "Printing the NODE_ENV variable"
-    - echo "NODE_ENV is: $NODE_ENV"
+    - echo "NODE_ENV is:" $NODE_ENV
     - echo "Installing dependencies..."
     - npm install || yarn install
     - echo "Building application..."
