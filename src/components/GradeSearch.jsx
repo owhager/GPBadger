@@ -14,6 +14,7 @@ import Nav from './Nav';
 export default function GradeSearch() {
   const searchInput = useRef(); // Stores user input in search bar
   const currentPage = useRef(); // Stores the current page the user is on
+  const pageInput = useRef();
 
   const [courseList, setCourseList] = useState([]); // List of courses to be currently displayed to the user
   const [totalResults, setTotalResults] = useState(0); // Number of current course search results
@@ -177,6 +178,34 @@ export default function GradeSearch() {
           changePage();
         }}>Next</Pagination.Next>
       </Pagination>
+      <Form className="mb-4">
+        {/* bootstrap form with bottom margin for spacing */}
+        <Row>
+          {/* bootstrap row with center alignment */}
+          <Col md={3}>
+            {/* bootstrap column with width adjustment on medium screens */}
+            <div className="input-group shadow">
+              {/* bootstrap input group for combining input and button, shadow for subtle elevation */}
+              <Form.Control
+                type="text"
+                placeholder="Jump to page..."
+                ref={pageInput}
+                className="border-0 bg-light"
+              />
+              {/* bootstrap form control with no border and light background for soft appearance */}
+              <Button onClick={ () => {
+                if (Number.isInteger(Number(pageInput.current.value)) && Number(pageInput.current.value) > 0 && Number(pageInput.current.value) < totalPages) {
+                  currentPage.current = pageInput.current.value;
+                  changePage();
+                } else {
+                  console.log("no");
+                }
+              }}> Go to Page</Button>
+              {/* bootstrap button with dark variant for styling */}
+            </div>
+          </Col>
+        </Row>
+      </Form>
     </Container>
   );
 };
