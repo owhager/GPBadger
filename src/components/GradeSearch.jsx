@@ -117,12 +117,6 @@ export default function GradeSearch() {
         {/* bootstrap muted text for subtle styling */}
       </div>
 
-      <div className="text-center mb-3">
-        {/* bootstrap utility classes for centering text and adding bottom margin */}
-        <h4 className="text-muted">Total Pages: {totalPages}</h4>
-        {/* bootstrap muted text for subtle styling */}
-      </div>
-
       {loading && (
         <div className="text-center my-4">
           {/* bootstrap text-center for alignment and margin-y for spacing */}
@@ -160,31 +154,22 @@ export default function GradeSearch() {
         </Row>
       )}
       <Pagination className="mt-3" count={totalPages}>
-        <Pagination.Prev disabled={currentPage.current === 1} onClick={() => {
-          currentPage.current = currentPage.current - 1;
+        <Pagination.Prev disabled={currentPage.current <= 1} onClick={() => {
+          currentPage.current = parseInt(Number(currentPage.current) - 1);
           changePage();
         }}>Prev</Pagination.Prev>
-        {[...Array(totalPages)].map((_, index) => (
-          <Pagination.Item
-            key={index}
-            active={index + 1 === currentPage.current}
-            hidden={!(index + 1 === currentPage.current)}
-          >
-            {index + 1}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next disabled={currentPage.current === totalPages} onClick={() => {
-          currentPage.current = currentPage.current + 1;
+        <Pagination.Item>{currentPage.current}</Pagination.Item>
+        <Pagination.Next disabled={currentPage.current >= totalPages} onClick={() => {
+          currentPage.current = parseInt(Number(currentPage.current) + 1);
           changePage();
         }}>Next</Pagination.Next>
-      </Pagination>
-      <Form className="mb-4">
+        <Form className="mb-4">
         {/* bootstrap form with bottom margin for spacing */}
         <Row>
           {/* bootstrap row with center alignment */}
-          <Col md={3}>
+          <Col md={12}>
             {/* bootstrap column with width adjustment on medium screens */}
-            <div className="input-group shadow">
+            <div className="input-group">
               {/* bootstrap input group for combining input and button, shadow for subtle elevation */}
               <Form.Control
                 type="text"
@@ -194,18 +179,20 @@ export default function GradeSearch() {
               />
               {/* bootstrap form control with no border and light background for soft appearance */}
               <Button onClick={ () => {
-                if (Number.isInteger(Number(pageInput.current.value)) && Number(pageInput.current.value) > 0 && Number(pageInput.current.value) < totalPages) {
+                if (Number.isInteger(Number(pageInput.current.value)) && Number(pageInput.current.value) > 0 && Number(pageInput.current.value) <= totalPages) {
                   currentPage.current = pageInput.current.value;
                   changePage();
-                } else {
-                  console.log("no");
                 }
-              }}> Go to Page</Button>
+              }}>Go to Page</Button>
               {/* bootstrap button with dark variant for styling */}
             </div>
           </Col>
         </Row>
       </Form>
+      </Pagination>
+      <div>
+        <h6 className="text-secondary">Total Pages: {totalPages}</h6>
+      </div>
     </Container>
   );
 };
