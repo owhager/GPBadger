@@ -13,10 +13,18 @@
 user_login mysql (has not null, unique, and auto-incremented primary key, unique and not null username, and not null password ):
 create user_login table
 
-CREATE TABLE `t15`.`user_login` (
-  `iduser_login` INT NOT NULL AUTO_INCREMENT,
-  `user_name` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`iduser_login`),
-  UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) VISIBLE,
-  UNIQUE INDEX `iduser_login_UNIQUE` (`iduser_login` ASC) VISIBLE);
+CREATE TABLE t15.user_login (
+	iduser_login int auto_increment NOT NULL,
+	email varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+	password varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+	first_name varchar(100) NULL,
+	last_name varchar(100) NULL,
+	CONSTRAINT `PRIMARY` PRIMARY KEY (iduser_login),
+	CONSTRAINT iduser_login_UNIQUE UNIQUE KEY (iduser_login),
+	CONSTRAINT user_name_UNIQUE UNIQUE KEY (email)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci
+COMMENT='';
+
