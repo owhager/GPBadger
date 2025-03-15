@@ -48,7 +48,7 @@ db.connect((error) => {
 
   //get request to server /login endpoint
   app.get("/login", (req, res) => {
-    const { email } = req.query;  // get emailfrom query params
+    const { email } = req.query;  // get email from query params
 
     //400 - bad request
     if (!email) {
