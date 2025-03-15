@@ -48,16 +48,16 @@ db.connect((error) => {
 
   //get request to server /login endpoint
   app.get("/login", (req, res) => {
-    const { username } = req.query;  // get user_name from query params
+    const { email } = req.query;  // get email from query params
 
     //400 - bad request
-    if (!username) {
-        return res.status(400).json({ error: "username is required in search" });
+    if (!email) {
+        return res.status(400).json({ error: "email is required in search" });
     }
 
-    //sql command to pull back records that match username
-    const sql = "SELECT * FROM user_login WHERE user_name = ?";
-    db.query(sql, [username], (err, result) => {
+    //sql command to pull back records that match email
+    const sql = "SELECT * FROM user_login WHERE email = ?";
+    db.query(sql, [email], (err, result) => {
         if (err) {
             //500 - internal server error
             return res.status(500).json({ error: "database error - error getting user data" });
@@ -65,7 +65,7 @@ db.connect((error) => {
         
         if (result.length === 0) {
             //404 - not found
-            return res.status(404).json({ message: "user with that username not found :(" });
+            return res.status(404).json({ message: "user with that email not found :(" });
         }
 
         res.json(result);
