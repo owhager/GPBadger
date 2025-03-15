@@ -72,6 +72,28 @@ db.connect((error) => {
     });
 });
 
+// POST request to add a new user
+app.post("/signup", (req, res) => {
+    const { email, password, firstName, lastName } = req.body; // Extract data from request body
+
+    // 400 - Bad request if required fields are missing
+    if (!email || !password || !firstName || !lastName) {
+        return res.status(400).json({ error: "email, password, first name, and last name are required" });
+    }
+
+    // SQL command to insert a new user
+    const sql = "INSERT INTO user_login (email, password, first_name, last_name) VALUES(?, ?, ?, ?)";
+
+    db.query(sql, [email, password, firstName, lastName], (err, result) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "database error - error inserting user data" });
+        }
+
+        res.status(201).json({ message: "user successfully inseted to db!", userId: result.insertId });
+    });
+});
+
 app.listen(5657, () => {
     console.log("server running on port 5657");
 });
