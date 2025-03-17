@@ -15,7 +15,7 @@ mysql.createConnection.mockReturnValue(mockDb); // return successful mocked conn
 
 const { app } = require("../../database/server"); //get app from server.js
 
-describe("test /login endpoint", () => {
+describe("test GET /login endpoint", () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
@@ -49,3 +49,70 @@ describe("test /login endpoint", () => {
         expect(response.body).toEqual(mockUser);
     });
 });
+
+describe("test DELETE /login endpoint", () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test("if no email query param, should return 400", async () => {
+        const res = await request(app).delete("/login");
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({ error: "email is required to delete an account" });
+    });
+
+    test("if user does not exist, should return 404", async () => {
+        mockDb.query.mockImplementation((sql, values, callback) => {
+            callback(null, { affectedRows: 0 });
+        });
+
+        const res = await request(app).delete("/login").query({ email: "null@gmail.com" });
+        expect(res.status).toBe(404);
+        expect(res.body).toEqual({ message: "user not found - no deletion!" });
+    });
+
+    test("if user successfully delete, return 200", async () => {
+        mockDb.query.mockImplementation((sql, values, callback) => {
+            callback(null, { affectedRows: 1 });
+        });
+
+        const res = await request(app).delete("/login").query({ email: "user@gmail.com" });
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual({ message: "user successfully deleted!" });
+    });
+});
+
+describe("test PUT /login endpoint", () => {
+    test("if no email provided in req body, return 400", async () => {
+        const res = await request(app).put("/login").send({ newPassword: "newpassy" });
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({ error: "email is required to update user!" });
+    });
+
+    test("if no update fields in req body, should return 400", async () => {
+        const res = await request(app).put("/login").send({ email: "fakeemail@gmail.com" });
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({ error: "please provide a user param field to update!" });
+    });
+
+    test("if user record doesn't exist, should return 404", async () => {
+        mockDb.query.mockImplementation((sql, values, callback) => {
+            callback(null, { affectedRows: 0 });
+        });
+
+        const res = await request(app).put("/login").send({ email: "DNE@gmail.com", newPassword: "newpassy" });
+        expect(res.status).toBe(404);
+        expect(res.body).toEqual({ message: "user not found - nothing updated!" });
+    });
+
+    test("if user record updated, should return 200", async () => {
+        mockDb.query.mockImplementation((sql, values, callback) => {
+            callback(null, { affectedRows: 1 });
+        });
+
+        const res = await request(app).put("/login").send({ email: "fakeuser@gmail.com", newPassword: "newpassy" });
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual({ message: "user password successfully updated!" });
+    });
+});
+
