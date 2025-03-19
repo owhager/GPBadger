@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import GradeSearch from './components/GradeSearch';
 import CourseDetails from './components/CourseDetails';
+import UserPage from './userpage';
 
 export default function App() {
     const [courseList, setCourseList] = useState([]);
@@ -29,4 +30,11 @@ export default function App() {
             <Route path="/course/:courseId" element={<CourseDetails />} />
         </Routes>
     );
+    return (
+    <div className="App">
+      <UserPage />
+    </div>
+  );
+
 }
+
