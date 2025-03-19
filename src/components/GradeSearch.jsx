@@ -313,7 +313,7 @@ export default function GradeSearch() {
         </Row>
       </Form>
       </Pagination>
-      <div>
+      <div className="text-center">
         <h6 className="text-secondary">Total Pages: {totalPages}</h6>
       </div>
     </Container>
