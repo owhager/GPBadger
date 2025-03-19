@@ -155,7 +155,7 @@ export default function GradeSearch() {
     <Container className="py-5">
       {/* bootstrap container for consistent padding and layout */}
 
-      <h1 className="text-center mb-4 fw-bold text-dark">📚 GradeSearch</h1>
+      <h1 className="text-center mb-4 fw-bold text-dark">📚 GPBadger</h1>
       {/* bootstrap utility classes for centering text, adding margin, bold font, and dark text color */}
 
       <Row className="align-items-center mb-4">
