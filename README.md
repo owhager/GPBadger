@@ -1,44 +1,21 @@
 # Specification Document
 
-Please fill out this document to reflect your team's project. This is a living document and will need to be updated regularly. You may also remove any section to its own document (e.g. a separate standards and conventions document), however you must keep the header and provide a link to that other document under the header.
-
-Also, be sure to check out the Wiki for information on how to maintain your team's requirements.
-
 ## TeamName
 
 <!--The name of your team.-->
+Team Table 15
 
 ### Project Abstract
 
 <!--A one paragraph summary of what the software will do.-->
 
-This is an example paragraph written in markdown. You can use *italics*, **bold**, and other formatting options. You can also <u>use inline html</u> to format your text. The example sections included in this document are not necessarily all the sections you will want, and it is possible that you won't use all the one's provided. It is your responsibility to create a document that adequately conveys all the information about your project specifications and requirements.
-
-Please view this file's source to see `<!--comments-->` with guidance on how you might use the different sections of this document. 
+The software that we are creating throughout this project will fetch and display UW-Madison course data and display it to users through a website. The data used for this website will be primarily retrieved from the MadGrades API to share reliable and up to date grade information about UW-Madison courses. It will also enable users to easily access this data through multiple search functionilties. 
 
 ### Customer
 
 <!--A brief description of the customer for this software, both in general (the population who might eventually use such a system) and specifically for this document (the customer(s) who informed this document). Every project will have a customer from the CS506 instructional staff. Requirements should not be derived simply from discussion among team members. Ideally your customer should not only talk to you about requirements but also be excited later in the semester to use the system.-->
 
-### How to Access App in CS VM
-Pull latest Image from GitLab CICD Release stage:
-docker image pull registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend
-
-Run the image in the t15 network and expose port 9090
-docker run --network t15_default -p 9090:9090 -d registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend:latest
-
-The previous command should return a container id.  Execute this container with the id
-docker exec -it CONTAINER_ID sh
-exit
-
-Log the return of the container running the app to make sure that the app is running and is able to connect to the database running on the VM
-docker logs CONTAINER ID
-
-Open a new terminal and create a ssh tunnel to port 9090 to check the app on your local machine
-ssh -L 9090:localhost:9090  CSLOGIN@cs506x15.cs.wisc.edu
-
-Try to hit port 9090 on your local machine:
-http://localhost:9090/
+The customers we are targeting with our software are University of Wisconsin - Madion students. The website we are building will allow students, when looking for different classes to potentially enroll in, to easily search though courses and access data on the grades earned by students taking the course in past semesters. We aim to help simplify the process of course selection for these university students through this software.
 
 ### Specification
 
@@ -50,226 +27,62 @@ http://localhost:9090/
 
 #### Technology Stack
 
-Here are some sample technology stacks that you can use for inspiration:
-
 ```mermaid
 flowchart RL
 subgraph Front End
 	A(Javascript: React)
 end
 	
-subgraph Back End
-	B(Python: Django with \nDjango Rest Framework)
-end
-	
 subgraph Database
 	C[(MySQL)]
 end
+subgraph MadGrades
+	D[(MadGrades API)]
+end
 
-A <-->|"REST API"| B
-B <-->|Django ORM| C
+A <--> C
+A <--> D
 ```
-
-```mermaid
-flowchart RL
-subgraph Front End
-	A(Javascript: Vue)
-end
-	
-subgraph Back End
-	B(Python: Flask)
-end
-	
-subgraph Database
-	C[(MySQL)]
-end
-
-A <-->|"REST API"| B
-B <-->|SQLAlchemy| C
-```
-
-```mermaid
-flowchart RL
-subgraph Front End
-	A(Javascript: Vue)
-end
-	
-subgraph Back End
-	B(Javascript: Express)
-end
-	
-subgraph Database
-	C[(MySQL)]
-end
-
-A <-->|"REST API"| B
-B <--> C
-```
-
-```mermaid
-flowchart RL
-subgraph Front End
-	A(Static JS, CSS, HTML)
-end
-	
-subgraph Back End
-	B(Java: SpringBoot)
-end
-	
-subgraph Database
-	C[(MySQL)]
-end
-
-A <-->|HTTP| B
-B <--> C
-```
-
-```mermaid
-flowchart RL
-subgraph Front End
-	A(Mobile App)
-end
-	
-subgraph Back End
-	B(Python: Django)
-end
-	
-subgraph Database
-	C[(MySQL)]
-end
-
-A <-->|REST API| B
-B <-->|Django ORM| C
-```
-
-
 
 #### Database
 
-```mermaid
----
-title: Sample Database ERD for an Order System
----
-erDiagram
-    Customer ||--o{ Order : "placed by"
-    Order ||--o{ OrderItem : "contains"
-    Product ||--o{ OrderItem : "included in"
 
-    Customer {
-        int customer_id PK
-        string name
-        string email
-        string phone
-    }
-
-    Order {
-        int order_id PK
-        int customer_id FK
-        string order_date
-        string status
-    }
-
-    Product {
-        int product_id PK
-        string name
-        string description
-        decimal price
-    }
-
-    OrderItem {
-        int order_item_id PK
-        int order_id FK
-        int product_id FK
-        int quantity
-    }
-```
 
 #### Class Diagram
 
-```mermaid
----
-title: Sample Class Diagram for Animal Program
----
-classDiagram
-    class Animal {
-        - String name
-        + Animal(String name)
-        + void setName(String name)
-        + String getName()
-        + void makeSound()
-    }
-    class Dog {
-        + Dog(String name)
-        + void makeSound()
-    }
-    class Cat {
-        + Cat(String name)
-        + void makeSound()
-    }
-    class Bird {
-        + Bird(String name)
-        + void makeSound()
-    }
-    Animal <|-- Dog
-    Animal <|-- Cat
-    Animal <|-- Bird
-```
+
 
 #### Flowchart
 
-```mermaid
----
-title: Sample Program Flowchart
----
-graph TD;
-    Start([Start]) --> Input_Data[/Input Data/];
-    Input_Data --> Process_Data[Process Data];
-    Process_Data --> Validate_Data{Validate Data};
-    Validate_Data -->|Valid| Process_Valid_Data[Process Valid Data];
-    Validate_Data -->|Invalid| Error_Message[/Error Message/];
-    Process_Valid_Data --> Analyze_Data[Analyze Data];
-    Analyze_Data --> Generate_Output[Generate Output];
-    Generate_Output --> Display_Output[/Display Output/];
-    Display_Output --> End([End]);
-    Error_Message --> End;
-```
+
 
 #### Behavior
-
 ```mermaid
----
-title: Sample State Diagram For Coffee Application
----
 stateDiagram
-    [*] --> Ready
-    Ready --> Brewing : Start Brewing
-    Brewing --> Ready : Brew Complete
-    Brewing --> WaterLowError : Water Low
-    WaterLowError --> Ready : Refill Water
-    Brewing --> BeansLowError : Beans Low
-    BeansLowError --> Ready : Refill Beans
+    [*] --> DisplayCourses: Show All Courses
+    DisplayCourses --> SearchLoading : Type Search
+    DisplayCourses --> Login : Press Login Button
+    DisplayCourses --> Signup: Press Signup Button
+    SearchLoading --> DisplayCourses: Show Search Results
+    Login --> DisplayCourses: Enable Logged In Priviledges
+    Signup --> Login: Choose Username/Password
 ```
 
 #### Sequence Diagram
 
 ```mermaid
 sequenceDiagram
-
 participant ReactFrontend
-participant DjangoBackend
+participant MadGrades API
 participant MySQLDatabase
-
-ReactFrontend ->> DjangoBackend: HTTP Request (e.g., GET /api/data)
-activate DjangoBackend
-
-DjangoBackend ->> MySQLDatabase: Query (e.g., SELECT * FROM data_table)
+ReactFrontend ->> MadGrades API: HTTP Request (e.g., GET /api/data)
+activate MadGrades API
+ReactFrontend ->> MySQLDatabase: Query (e.g., SELECT * FROM data_table)
 activate MySQLDatabase
-
-MySQLDatabase -->> DjangoBackend: Result Set
+MySQLDatabase -->> ReactFrontend: Result Set
 deactivate MySQLDatabase
-
-DjangoBackend -->> ReactFrontend: JSON Response
-deactivate DjangoBackend
+MadGrades API -->> ReactFrontend: JSON Response
+deactivate MadGrades API
 ```
 
 ### Standards & Conventions

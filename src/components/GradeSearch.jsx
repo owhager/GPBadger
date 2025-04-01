@@ -259,7 +259,7 @@ export default function GradeSearch() {
                   {/* bootstrap card body with flex column to align content */}
                   <Card.Title className="text-dark">{course.name}</Card.Title>
                   {/* bootstrap card title with dark text */}
-                  <Card.Text className="text-muted">Course Code: {course.subjects[0].abbreviation + " " + course.subjects[0].code}</Card.Text>
+                  <Card.Text className="text-muted">Course Code: {course.subjects[0].abbreviation + " " + course.number}</Card.Text>
                   {/* bootstrap muted text for subtle styling */}
                   <Button
                     as={Link}

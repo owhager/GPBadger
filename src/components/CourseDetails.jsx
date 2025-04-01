@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button, Col, Row } from 'react-bootstrap';
 import {getRateMyProfData, RateMyProf} from '../RateMyProf';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -37,6 +37,7 @@ export default function CourseDetails() {
 
     useEffect(() => {
     // MadGrades API calling fetching course grade information
+    
     fetch(`https://api.madgrades.com/v1/courses/${course.uuid}/grades`, {
         headers: {
           "Authorization": "Token token=052ae8133724409ba61902593bee5db6"
@@ -68,7 +69,7 @@ export default function CourseDetails() {
                     label: 'My Data',
                     data: [Number(res.wouldTakeAgainPercent), (100 - Number(res.wouldTakeAgainPercent))],
                     backgroundColor: ['blue', 'white'],
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderColor: 'rgba(0, 93, 255, 0.1)',
                     borderWidth: 1,
                   },
                 ],
@@ -80,7 +81,7 @@ export default function CourseDetails() {
                     label: 'My Data',
                     data: [Number(res.avgRating), (5 - Number(res.avgRating))],
                     backgroundColor: ['gold', 'white'],
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderColor: 'rgba(0, 93, 255, 0.1)',
                     borderWidth: 1,
                   },
                 ],
@@ -92,7 +93,7 @@ export default function CourseDetails() {
                     label: 'My Data',
                     data: [Number(res.avgDifficulty), (5 - Number(res.avgDifficulty))],
                     backgroundColor: ['red', 'white'],
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderColor: 'rgba(0, 93, 255, 0.1)',
                     borderWidth: 1,
                   },
                 ],
@@ -144,8 +145,9 @@ export default function CourseDetails() {
                   {
                     label: 'Class Grade Totals',
                     data: [result.cumulative.aCount, result.cumulative.abCount, result.cumulative.bCount, result.cumulative.bcCount, result.cumulative.cCount, result.cumulative.dCount, result.cumulative.fCount],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)'
+                    ,
+                    borderColor: 'rgba(0, 0, 0, 1)',
                     borderWidth: 1,
                   },
                 ],
@@ -180,17 +182,24 @@ export default function CourseDetails() {
 
                     {/* Course Code - Uses optional chaining to safely access subject information */}
                     <h5 className="text-muted">
-                        Course Code: {course.subjects?.[0]?.abbreviation + " " + course.subjects?.[0]?.code || "N/A"}
+                        Course Code: {course.subjects?.[0]?.abbreviation + " " + course.number || "N/A"}
                     </h5>
                     {/* Display Instructor, Credits, and Semester information with placeholders for missing values */}
-                    <p><strong>Average GPA:</strong> {courseGPA || "TBD"}</p>
+                    <div style={{ paddingTop: '10px', paddingBottom: '1px' }}>
+                    <p style={{ fontSize: '22px' }}><strong>Average GPA:</strong> {courseGPA || "TBD"}</p>
+                    </div>
                     <p><strong>Instructor:</strong> {courseInstructor || "TBD"}</p>
                     {displayRate}
                     {/* Back Button - Navigates back to the previous page when clicked */}
                     <Button variant="dark" onClick={() => navigate(-1)}>Back to Search</Button>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '150', paddingTop: '50px' }}>
+                    <Col md={10}>
+                    {barChart}
+                    </Col>
+                    </div>
                 </Card.Body>
             </Card>
-            {barChart}
+            
         </Container>
     );
 }
