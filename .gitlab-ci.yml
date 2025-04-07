@@ -51,6 +51,4 @@ release:
     - dind
   only:
     - main
-    - issue_57_db_connect
-
 

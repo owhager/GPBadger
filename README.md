@@ -16,7 +16,7 @@ The software that we are creating throughout this project will fetch and display
 Pull latest Image from GitLab CICD Release stage:
 docker image pull registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend
 Run the image in the t15 network and expose port 9090
-docker run --network t15_default -p 9090:9090 -d registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend:latest
+docker run --network t15_default -p 9090:9090 -p 5657:5657 -d registry.doit.wisc.edu/cdis/cs/courses/cs506/sp2025/team/t_15/project_15/frontend:latest
 The previous command should return a container id.  Execute this container with the id
 docker exec -it CONTAINER_ID sh
 exit
