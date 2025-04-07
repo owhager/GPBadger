@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const UserPage = () => {
   const navigate = useNavigate();
@@ -15,19 +16,61 @@ const UserPage = () => {
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
 
-  const handleLoginSubmit = (e) => {
+
+  const [error, setError] = useState('');
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // Your login logic (e.g., API call) goes here
-    console.log('Logging in with:', loginEmail, loginPassword);
-    // After a successful login, navigate to the main page route:
-    navigate('/main');
+    try {
+      const response = await axios.get('http://localhost:5657/login', {
+        params: { email: loginEmail }
+      });
+  
+      const user = response.data[0];
+  
+      if (user.password === loginPassword) {
+        console.log('SUCCESS: login');
+        navigate('/main');
+        setError('');
+      } else {
+        setError('Incorrect password!  Please try again.')
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError('User does not exist.  Please create an account.')
+      } else {
+        console.error('LOGIN ERROR: ', error);
+        setError('An error occured during login.  Please try again.')
+      }
+    }
   };
 
-  const handleSignupSubmit = (e) => {
+
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    // Your sign up logic (e.g., API call) goes here
-    console.log('Signing up with:', firstName, lastName, signupEmail, signupPassword);
+    try {
+      const response = await axios.post('http://localhost:5657/login', {
+        email: signupEmail,
+        password: signupPassword,
+        firstName: firstName,
+        lastName: lastName
+      });
+  
+      console.log(response.data.message);
+      console.log('SUCCESS: login');
+      navigate('/main');
+      alert("Sign up successful!");
+      setError('');
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        setError('A user with that email already exists.')
+      } else{
+      console.error('SIGN UP ERROR: ', error);
+      setError('An error occurred during signup. Please try again.');
+      }
+    }
   };
+  
 
   // Inline style objects using your custom color: #7D0424
   const containerStyle = {
@@ -156,6 +199,11 @@ const UserPage = () => {
             >
               Login
             </button>
+            {error && (
+  <p style={{ color: 'red', marginTop: '10px' }}>
+    {error}
+  </p>
+)}
           </form>
         ) : (
           <form onSubmit={handleSignupSubmit} style={formStyle}>
@@ -211,6 +259,11 @@ const UserPage = () => {
             >
               Sign Up
             </button>
+            {error && (
+  <p style={{ color: 'red', marginTop: '10px' }}>
+    {error}
+  </p>
+)}
           </form>
         )}
       </div>

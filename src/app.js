@@ -4,6 +4,7 @@ import GradeSearch from './components/GradeSearch';
 import CourseDetails from './components/CourseDetails';
 import UserPage from './userpage';
 
+
 export default function App() {
   const [courseList, setCourseList] = useState([]);
 
