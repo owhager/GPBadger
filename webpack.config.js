@@ -39,7 +39,8 @@ module.exports = {
     compress: true,
     port: 9090,
     open: true,
-    hot: true
+    hot: true,
+    historyApiFallback: true // added this to fix reloading issue
   },
   plugins: [
     new HtmlWebpackPlugin({
