@@ -19,6 +19,7 @@
  * 
  * - POST /login: Creates a user record with email, password, first name, and last name params
  *   - 400: if email, password, first name, and last name params are missing in req body
+ *   - 409: if a user with that email already exists
  *   - 500: if there is a db related error
  *   - 201: if record is created
  * 
@@ -41,8 +42,11 @@ const express = require("express");
 const mysql = require('mysql2');
 
 const app = express();
-app.use(express.json());  //needed for json req body in post request
+app.use(express.json());
 
+//needed for auth when calling sever on port 9090 ig
+const cors = require('cors');
+app.use(cors());
 
 
 //connection to t15 db - not secure so im putting all our secure info here
@@ -104,6 +108,10 @@ app.post("/login", (req, res) => {
 
     db.query(sql, [email, password, firstName, lastName], (err, result) => {
         if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: " a user with that email already exists!" });
+            }
+
             console.error("Database error:", err);
             return res.status(500).json({ error: "database error - error posting user data!" });
         }
