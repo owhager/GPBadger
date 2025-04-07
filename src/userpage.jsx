@@ -1,10 +1,23 @@
+/**
+ * @file UserPage.jsx
+ * @description React component that provides login, sign-up, and forgot password forms for user authentication.
+ *              The forgot password form is accessible via a link in the login form only.
+ * 
+ * @dependencies
+ * - React: core library for building the UI.
+ * - react-router-dom: used for client-side routing and navigation.
+ * - axios: used for making HTTP requests.
+ */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const UserPage = () => {
   const navigate = useNavigate();
+  // activeTab is now used for "login", "signup", or "forgotPassword"
   const [activeTab, setActiveTab] = useState('login');
+  const [resetEmailSent, setResetEmailSent] = useState(false);
 
   // Login state
   const [loginEmail, setLoginEmail] = useState('');
@@ -16,6 +29,8 @@ const UserPage = () => {
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
 
+  // Forgot password state
+  const [forgotEmail, setForgotEmail] = useState('');
 
   const [error, setError] = useState('');
 
@@ -25,26 +40,23 @@ const UserPage = () => {
       const response = await axios.get('http://localhost:5657/login', {
         params: { email: loginEmail }
       });
-  
       const user = response.data[0];
-  
       if (user.password === loginPassword) {
         console.log('SUCCESS: login');
         navigate('/main');
         setError('');
       } else {
-        setError('Incorrect password!  Please try again.')
+        setError('Incorrect password! Please try again.');
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setError('User does not exist.  Please create an account.')
+        setError('User does not exist. Please create an account.');
       } else {
         console.error('LOGIN ERROR: ', error);
-        setError('An error occured during login.  Please try again.')
+        setError('An error occurred during login. Please try again.');
       }
     }
   };
-
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
@@ -55,24 +67,30 @@ const UserPage = () => {
         firstName: firstName,
         lastName: lastName
       });
-  
       console.log(response.data.message);
-      console.log('SUCCESS: login');
+      console.log('SUCCESS: sign up');
       navigate('/main');
       alert("Sign up successful!");
       setError('');
     } catch (error) {
       if (error.response && error.response.status === 409) {
-        setError('A user with that email already exists.')
-      } else{
-      console.error('SIGN UP ERROR: ', error);
-      setError('An error occurred during signup. Please try again.');
+        setError('A user with that email already exists.');
+      } else {
+        console.error('SIGN UP ERROR: ', error);
+        setError('An error occurred during signup. Please try again.');
       }
     }
   };
-  
 
-  // Inline style objects using your custom color: #7D0424
+  const handleForgotPasswordSubmit = (e) => {
+    e.preventDefault();
+    console.log('Password reset requested for:', forgotEmail);
+    // Need to send an email here with the user's password
+    setResetEmailSent(true);
+    setForgotEmail('');
+  };
+
+  // Inline style objects using custom color: #7D0424
   const containerStyle = {
     maxWidth: '400px',
     margin: '3rem auto',
@@ -85,7 +103,7 @@ const UserPage = () => {
 
   const tabsStyle = {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     marginBottom: '1.5rem'
   };
 
@@ -141,6 +159,14 @@ const UserPage = () => {
     transition: 'background-color 0.3s ease'
   };
 
+  const linkStyle = {
+    color: '#7D0424',
+    cursor: 'pointer',
+    textDecoration: 'underline',
+    marginTop: '0.5rem',
+    alignSelf: 'flex-end'
+  };
+
   const handleButtonHover = (event) => {
     event.target.style.backgroundColor = '#64031D';
   };
@@ -154,20 +180,26 @@ const UserPage = () => {
       <div style={tabsStyle}>
         <button
           style={tabButtonStyle(activeTab === 'login')}
-          onClick={() => setActiveTab('login')}
+          onClick={() => {
+            setActiveTab('login');
+            setResetEmailSent(false);
+          }}
         >
           Login
         </button>
         <button
           style={tabButtonStyle(activeTab === 'signup')}
-          onClick={() => setActiveTab('signup')}
+          onClick={() => {
+            setActiveTab('signup');
+            setResetEmailSent(false);
+          }}
         >
           Sign Up
         </button>
       </div>
 
       <div style={formContainerStyle}>
-        {activeTab === 'login' ? (
+        {activeTab === 'login' && (
           <form onSubmit={handleLoginSubmit} style={formStyle}>
             <div style={formGroupStyle}>
               <label htmlFor="loginEmail" style={labelStyle}>Email:</label>
@@ -200,12 +232,18 @@ const UserPage = () => {
               Login
             </button>
             {error && (
-  <p style={{ color: 'red', marginTop: '10px' }}>
-    {error}
-  </p>
-)}
+              <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
+            )}
+            <p
+              style={linkStyle}
+              onClick={() => setActiveTab('forgotPassword')}
+            >
+              Forgot Password?
+            </p>
           </form>
-        ) : (
+        )}
+
+        {activeTab === 'signup' && (
           <form onSubmit={handleSignupSubmit} style={formStyle}>
             <div style={formGroupStyle}>
               <label htmlFor="firstName" style={labelStyle}>First Name:</label>
@@ -260,10 +298,40 @@ const UserPage = () => {
               Sign Up
             </button>
             {error && (
-  <p style={{ color: 'red', marginTop: '10px' }}>
-    {error}
-  </p>
-)}
+              <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
+            )}
+          </form>
+        )}
+
+        {activeTab === 'forgotPassword' && (
+          <form onSubmit={handleForgotPasswordSubmit} style={formStyle}>
+            <p style={{ marginBottom: '1rem', color: '#333' }}>
+              Please enter your email, and your password will be sent to you
+            </p>
+            <div style={formGroupStyle}>
+              <label htmlFor="forgotEmail" style={labelStyle}>Email:</label>
+              <input
+                type="email"
+                id="forgotEmail"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
+            <button
+              type="submit"
+              style={submitButtonStyle}
+              onMouseOver={handleButtonHover}
+              onMouseOut={handleButtonLeave}
+            >
+              Submit
+            </button>
+            {resetEmailSent && (
+              <p style={{ color: 'green', marginTop: '10px' }}>
+                Password sent to email
+              </p>
+            )}
           </form>
         )}
       </div>
