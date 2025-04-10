@@ -9,8 +9,9 @@
  * - axios: used for making HTTP requests.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 const UserPage = () => {
@@ -28,6 +29,12 @@ const UserPage = () => {
   const [lastName, setLastName] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [showSignupAlertModal, setShowSignupAlertModal] = useState(false);
+  const [showLoginAlertModal, setShowLoginAlertModal] = useState(false);
+
+  const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,}).*$/; // Regex for a password at least 6 charaters long with at least 1 digit and 1 special character
 
   // Forgot password state
   const [forgotEmail, setForgotEmail] = useState('');
@@ -36,6 +43,7 @@ const UserPage = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    if(passwordRegex.test(loginPassword)) {
     try {
       const response = await axios.get('http://localhost:5657/login', {
         params: { email: loginEmail }
@@ -56,10 +64,14 @@ const UserPage = () => {
         setError('An error occurred during login. Please try again.');
       }
     }
+  } else {
+    setShowLoginAlertModal(true);
+  }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+    if (confirmPassword === signupPassword && passwordRegex.test(signupPassword)) {
     try {
       const response = await axios.post('http://localhost:5657/login', {
         email: signupEmail,
@@ -80,6 +92,9 @@ const UserPage = () => {
         setError('An error occurred during signup. Please try again.');
       }
     }
+  } else {
+    setShowSignupAlertModal(true);
+  }
   };
 
   const handleForgotPasswordSubmit = (e) => {
@@ -114,7 +129,7 @@ const UserPage = () => {
     fontSize: '1.1rem',
     cursor: 'pointer',
     transition: 'color 0.3s ease',
-    color: isActive ? '#7D0424' : '#555',
+    color: isActive ? '#000000' : '#555',
     fontWeight: isActive ? 'bold' : 'normal'
   });
 
@@ -138,7 +153,7 @@ const UserPage = () => {
 
   const labelStyle = {
     marginBottom: '0.5rem',
-    color: '#333'
+    color: '#404040'
   };
 
   const inputStyle = {
@@ -160,7 +175,7 @@ const UserPage = () => {
   };
 
   const linkStyle = {
-    color: '#7D0424',
+    color: '#3541f0',
     cursor: 'pointer',
     textDecoration: 'underline',
     marginTop: '0.5rem',
@@ -168,17 +183,56 @@ const UserPage = () => {
   };
 
   const handleButtonHover = (event) => {
-    event.target.style.backgroundColor = '#64031D';
+    event.target.style.backgroundColor = '#000000';
+    event.target.style.color = '#ffffff';
   };
 
   const handleButtonLeave = (event) => {
-    event.target.style.backgroundColor = '#7D0424';
+    event.target.style.backgroundColor = '#ffffff';
+    event.target.style.color = '#000000';
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={tabsStyle}>
-        <button
+    <Container className="py-5">
+      <h1 className="text-center mb-4 fw-bold text-dark">📚 GPBadger</h1>
+      
+
+<Modal show={showLoginAlertModal} onHide={() => setShowLoginAlertModal(false)}>
+  <Modal.Header>
+    <Modal.Title>Invalid Login</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <p>Passwords must be at least 6 characters in length containing at least one number and special character (!@#$%^&*)</p>
+    <Button 
+    className="mt-3 justify-content-center" 
+    onClick={() => setShowLoginAlertModal(false)}
+    variant="dark"
+    onMouseOver={handleButtonHover}
+    onMouseOut={handleButtonLeave}
+    style={{backgroundColor: '#ffffff', color: '#000000'}}
+    >Close</Button>
+  </Modal.Body>
+</Modal>
+
+<Modal show={showSignupAlertModal} onHide={() => setShowSignupAlertModal(false)}>
+  <Modal.Header>
+    <Modal.Title>Invalid Signup</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <p>Passwords must match and be at least 6 characters in length containing at least one number and special character (!@#$%^&*)! Please try again.</p>
+    <Button 
+    className="mt-3 justify-content-center" 
+    onClick={() => setShowSignupAlertModal(false)}
+    variant="dark"
+    onMouseOver={handleButtonHover}
+    onMouseOut={handleButtonLeave}
+    style={{backgroundColor: '#ffffff', color: '#000000'}}
+    >Close</Button>
+  </Modal.Body>
+</Modal>
+    <Container style={containerStyle}>
+      <Container style={tabsStyle}>
+        <Button
           style={tabButtonStyle(activeTab === 'login')}
           onClick={() => {
             setActiveTab('login');
@@ -186,8 +240,8 @@ const UserPage = () => {
           }}
         >
           Login
-        </button>
-        <button
+        </Button>
+        <Button
           style={tabButtonStyle(activeTab === 'signup')}
           onClick={() => {
             setActiveTab('signup');
@@ -195,13 +249,13 @@ const UserPage = () => {
           }}
         >
           Sign Up
-        </button>
-      </div>
+        </Button>
+      </Container>
 
-      <div style={formContainerStyle}>
+      <Container style={formContainerStyle}>
         {activeTab === 'login' && (
           <form onSubmit={handleLoginSubmit} style={formStyle}>
-            <div style={formGroupStyle}>
+            <Container style={formGroupStyle}>
               <label htmlFor="loginEmail" style={labelStyle}>Email:</label>
               <input
                 type="email"
@@ -211,8 +265,8 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <div style={formGroupStyle}>
+            </Container>
+            <Container style={formGroupStyle}>
               <label htmlFor="loginPassword" style={labelStyle}>Password:</label>
               <input
                 type="password"
@@ -222,15 +276,15 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <button
+            </Container>
+            <Button
               type="submit"
-              style={submitButtonStyle}
+              variant="outline-dark mt-auto"
               onMouseOver={handleButtonHover}
               onMouseOut={handleButtonLeave}
             >
               Login
-            </button>
+            </Button>
             {error && (
               <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
             )}
@@ -245,7 +299,7 @@ const UserPage = () => {
 
         {activeTab === 'signup' && (
           <form onSubmit={handleSignupSubmit} style={formStyle}>
-            <div style={formGroupStyle}>
+            <Container style={formGroupStyle}>
               <label htmlFor="firstName" style={labelStyle}>First Name:</label>
               <input
                 type="text"
@@ -255,8 +309,8 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <div style={formGroupStyle}>
+            </Container>
+            <Container style={formGroupStyle}>
               <label htmlFor="lastName" style={labelStyle}>Last Name:</label>
               <input
                 type="text"
@@ -266,8 +320,8 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <div style={formGroupStyle}>
+            </Container>
+            <Container style={formGroupStyle}>
               <label htmlFor="signupEmail" style={labelStyle}>Email:</label>
               <input
                 type="email"
@@ -277,8 +331,8 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <div style={formGroupStyle}>
+            </Container>
+            <Container style={formGroupStyle}>
               <label htmlFor="signupPassword" style={labelStyle}>Password:</label>
               <input
                 type="password"
@@ -288,15 +342,26 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <button
+            </Container>
+            <Container style={formGroupStyle}>
+              <label htmlFor="confirmPassword" style={labelStyle}>Confirm Password:</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </Container>
+            <Button
               type="submit"
-              style={submitButtonStyle}
+              variant="outline-dark mt-auto"
               onMouseOver={handleButtonHover}
               onMouseOut={handleButtonLeave}
             >
               Sign Up
-            </button>
+            </Button>
             {error && (
               <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
             )}
@@ -308,7 +373,7 @@ const UserPage = () => {
             <p style={{ marginBottom: '1rem', color: '#333' }}>
               Please enter your email, and your password will be sent to you
             </p>
-            <div style={formGroupStyle}>
+            <Container style={formGroupStyle}>
               <label htmlFor="forgotEmail" style={labelStyle}>Email:</label>
               <input
                 type="email"
@@ -318,15 +383,15 @@ const UserPage = () => {
                 required
                 style={inputStyle}
               />
-            </div>
-            <button
+            </Container>
+            <Button
               type="submit"
-              style={submitButtonStyle}
+              variant="dark"
               onMouseOver={handleButtonHover}
               onMouseOut={handleButtonLeave}
             >
               Submit
-            </button>
+            </Button>
             {resetEmailSent && (
               <p style={{ color: 'green', marginTop: '10px' }}>
                 Password sent to email
@@ -334,8 +399,9 @@ const UserPage = () => {
             )}
           </form>
         )}
-      </div>
-    </div>
+      </Container>
+    </Container>
+    </Container>   
   );
 };
 
