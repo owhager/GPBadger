@@ -28,3 +28,14 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci
 COMMENT='';
 
+CREATE TABLE t15.user_fav (
+	email TEXT NOT NULL,
+	fav_code TEXT NOT NULL,
+	id INT auto_increment NOT NULL,
+	CONSTRAINT user_fav_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+
