@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import App from './app';
 import { UserProvider } from '../src/contexts/UserContext'; // global user state for login/logout
 import 'bootstrap/dist/css/bootstrap.min.css';
 
