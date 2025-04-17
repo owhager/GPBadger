@@ -12,6 +12,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
+import { useUser } from "../src/contexts/UserContext";
 import axios from 'axios';
 
 const UserPage = () => {
@@ -41,6 +42,8 @@ const UserPage = () => {
 
   const [error, setError] = useState('');
 
+  const { setUser } = useUser(); 
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     if(passwordRegex.test(loginPassword)) {
@@ -51,6 +54,14 @@ const UserPage = () => {
       const user = response.data[0];
       if (user.password === loginPassword) {
         console.log('SUCCESS: login');
+        console.log(user);
+
+        setUser({
+          email: user.email,
+          firstName: user.first_name,
+          lastName: user.last_name
+        }); 
+        
         navigate('/main');
         setError('');
       } else {
@@ -81,6 +92,13 @@ const UserPage = () => {
       });
       console.log(response.data.message);
       console.log('SUCCESS: sign up');
+
+      setUser({
+        email: signupEmail,
+        firstName,
+        lastName
+      });
+
       navigate('/main');
       alert("Sign up successful!");
       setError('');

@@ -51,7 +51,7 @@ app.use(cors());
 
 //connection to t15 db - not secure so im putting all our secure info here
 const db = mysql.createConnection({
-    host: "mysql-container", //CHANGE TO "localhost" for local development BUT CHANGE BACK TO "mysql-container" BEFORE PUSHING TO MAIN
+    host: "localhost", //CHANGE TO "localhost" for local development BUT CHANGE BACK TO "mysql-container" BEFORE PUSHING TO MAIN
     user: 'root',
     password: 'shoelace',
     database: 't15',
