@@ -30,7 +30,7 @@ export default function App() {
       <NavBar />
       
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/main" replace />} />
         {/* Login page */}
         <Route path="/login" element={<UserPage />} />
         <Route path="/main" element={<GradeSearch courseList={courseList} />} />
