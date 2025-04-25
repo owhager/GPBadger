@@ -69,12 +69,49 @@ A <--> D
 
 
 #### Class Diagram
+```mermaid
+classDiagram
+    class GradeSearch {
+        + useEffect()
+        + handleSearch()
+        + applyFilters()
+        + changePage()
+    }
+    class CourseDetails {
+        - Course ID
+        + useEffect()
+    }
+    class Userpage {
+        + handleSignupSubmit()
+        + handleLoginSubmit()
+        + handleForgotPasswordSubmit()
+    }
+    class Userpage {
+        + handleSignupSubmit()
+        + handleLoginSubmit()
+        + handleForgotPasswordSubmit()
+    }
+    class NavBar {
+        + handleLogout()
+    }
+    class ProfilePage {
+        + handleDelteAccount()
+        + handleChangePassword()
+    }
 
-
+```
 
 #### Flowchart
-
-
+```mermaid
+graph TD;
+    Start([Start Application]) --> DisplayCourses[/Display Courses/];
+    DisplayCourses --> Login[Login/Signup] --> DisplayCourses;
+    DisplayCourses --> SearchCourse[Type Search] --> DisplayCourses;
+    DisplayCourses --> SelectCourse[Select Course];
+    SelectCourse --> ShowCourse[/Show Course Details/];
+    ShowCourse --> BackSearch[Back to Search] --> DisplayCourses;
+    Login --> ProfilePage[Show Profile Page] --> DisplayCourses;
+```
 
 #### Behavior
 ```mermaid
